@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Exemplo01</title>
+</head>
+<body>
+	<div class="container">
+		<h1> TESTANDO </h1>
+	</div>
+
+	<canvas width="720" height="480">
+		Tu ta fudido meu parceiro
+	</canvas>
+
+	<script>
+
+		var canvas = document.querySelector("canvas")
+    var ctx = canvas.getContext("2d")
+    
+    preencheRetangulo(0,0, canvas.width, canvas.height, "white")
+
+		contornaRetangulo(100, 20, 170, 30, "red", 14)
+
+		preencheRetangulo(100, 20, 170, 30, "gold")
+    
+		escreveTexto("hello world", 100, 50, "black", "bold", "30px", "Arial" )
+		
+		function preencheRetangulo(x, y, w, h, cor){
+			ctx.fillStyle = cor
+			ctx.fillRect(x, y, w, h)
+		}
+		function contornaRetangulo(x, y, w, h, cor, linha){
+			ctx.lineWidth = linha
+			ctx.strokeStyle = cor
+    	ctx.strokeRect(x, y, w, h)
+		}
+		function escreveTexto(texto, x, y, cor, efeito, tamanho, fonte){
+			ctx.font = "" + efeito + " " + tamanho + " " + fonte + "" // font é um elemento do contexto2d, entao já possui uma configuração padrao que deve ser mudada antes
+			ctx.fillStyle = cor
+			ctx.fillText(texto, x, y)
+		}
+
+	</script>
+
+	</body>
+</html>

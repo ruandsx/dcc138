@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Exemplo01</title>
+</head>
+<body>
+	<div class="container">
+		<h1> TESTANDO </h1>
+	</div>
+
+	<canvas width="720" height="480">
+		Tu ta fudido meu parceiro
+	</canvas>
+
+	<script>
+
+		var canvas = document.querySelector("canvas")
+    var ctx = canvas.getContext("2d")
+    
+    ctx.fillStyle = "white"
+    ctx.fillRect(0,0, canvas.width, canvas.height)
+
+		ctx.lineWidth = 14
+		ctx.strokeStyle = "red"
+    ctx.strokeRect(100, 20, 170, 30)
+
+    ctx.fillStyle = "gold"
+		ctx.fillRect(100, 20, 170, 30)
+    
+    
+    ctx.font = "bold 30px Arial" // font é um elemento do contexto2d, entao já possui uma configuração padrao que deve ser mudada antes
+    ctx.fillStyle = "black"
+    ctx.fillText("hello world", 100, 50)
+    
+		
+		
+
+	</script>
+
+	</body>
+</html>
