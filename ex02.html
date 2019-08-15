@@ -16,19 +16,23 @@
       canvas.height = 300;
       var dt = 0;
       var anterior = 0;
-      var pc = {
-        x : 100,
-        y : 100,
-        w : 30,
-        vx : 50,
-        vy : 0,
-      }
+      var pc = {}
       pc.x = 100;
       pc.y = 100;
       pc.w = 30;
       pc.vx = 50;
       pc.vy = 0;
-      
+
+      pc.mover = function(dt){
+        this.x = this.x + this.vx*dt;
+        this.y = this.y + this.vy*dt;
+      }
+      pc.desenhar = function(ctx) {
+          ctx.fillStyle = "lightblue";
+          ctx.fillRect(this.x, this.y, this.w, this.w);
+          ctx.strokeStyle = "black";
+          ctx.strokeRect(this.x, this.y, this.w, this.w);
+      }
 
       var ctx = canvas.getContext("2d");
 
@@ -63,12 +67,6 @@
           ctx.fillStyle = "orange";
           ctx.fillRect(0,95,5,40); 
       }
-      function desenhaPC(x, y){
-          ctx.fillStyle = "lightblue";
-          ctx.fillRect(x, y, pc.w, pc.w);
-          ctx.strokeStyle = "black";
-          ctx.strokeRect(x, y, pc.w, pc.w);
-      }
       function passo(t){
           dt = (t - anterior)/1000;
           desenhaChao();
@@ -76,9 +74,10 @@
           ctx.fillText(t, 10,10);
           ctx.fillText(dt, 10,20);
           
-          pc.x = pc.x + pc.vx*dt;
-          pc.y = pc.y + pc.vy*dt;
-          desenhaPC(pc.x,pc.y);
+          pc.mover(dt);
+
+          pc.desenhar(ctx);
+
           desenhaPortais();
           anterior = t;
           if(pc.x >= canvas.width){
