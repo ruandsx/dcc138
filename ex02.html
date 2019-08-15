@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Semana 2 Ex02</title>
+</head>
+<body>
+    <h1>Semana 2 Ex 02</h1>
+    <canvas />
+    <script>
+      var canvas = document.querySelector("canvas");
+
+      canvas.width = 400;
+      canvas.height = 300;
+      var dt = 0;
+      var anterior = 0;
+      var pc = {
+        x : 100,
+        y : 100,
+        w : 30,
+        vx : 50,
+        vy : 0,
+      }
+      pc.x = 100;
+      pc.y = 100;
+      pc.w = 30;
+      pc.vx = 50;
+      pc.vy = 0;
+      
+
+      var ctx = canvas.getContext("2d");
+
+
+      function teclaPressionada(e){
+          console.log(e.keyCode);
+          if(e.keyCode == 37){
+              pc.vx = -80;
+          }
+          if(e.keyCode == 39){
+              pc.vx = 80;
+          }
+      }
+      function teclaSolta(e){
+          console.log(e.keyCode);
+          if(e.keyCode == 37){
+              pc.vx = 0;
+          }
+          if(e.keyCode == 39){
+              pc.vx = 0;
+          }
+          
+      }
+      function desenhaChao(){
+          ctx.fillStyle = "tan";
+          ctx.fillRect(0,0,canvas.width, canvas.height);
+          
+      }
+      function desenhaPortais(){
+          ctx.fillStyle = "blue";
+          ctx.fillRect(395,95,5,40); 
+          ctx.fillStyle = "orange";
+          ctx.fillRect(0,95,5,40); 
+      }
+      function desenhaPC(x, y){
+          ctx.fillStyle = "lightblue";
+          ctx.fillRect(x, y, pc.w, pc.w);
+          ctx.strokeStyle = "black";
+          ctx.strokeRect(x, y, pc.w, pc.w);
+      }
+      function passo(t){
+          dt = (t - anterior)/1000;
+          desenhaChao();
+          ctx.fillStyle = "black";
+          ctx.fillText(t, 10,10);
+          ctx.fillText(dt, 10,20);
+          
+          pc.x = pc.x + pc.vx*dt;
+          pc.y = pc.y + pc.vy*dt;
+          desenhaPC(pc.x,pc.y);
+          desenhaPortais();
+          anterior = t;
+          if(pc.x >= canvas.width){
+              //pc.vx = -pc.vx;
+              pc.x = 0 - pc.w;
+          } else if(pc.x <= 0-pc.w){
+              //pc.vx = -pc.vx;
+              pc.x = canvas.width;
+          }
+          requestAnimationFrame(passo);
+      }
+      //Programa principal
+      console.log(pc);
+      addEventListener("keydown", teclaPressionada);
+      addEventListener("keyup", teclaSolta);
+      requestAnimationFrame(passo);
+      
+    </script>
+</body>
+</html>
