@@ -16,6 +16,7 @@
       canvas.height = 300;
       var dt = 0;
       var anterior = 0;
+
       var pc = {}
       pc.x = 100;
       pc.y = 100;
@@ -28,6 +29,25 @@
         this.y = this.y + this.vy*dt;
       }
       pc.desenhar = function(ctx) {
+          ctx.fillStyle = "lightblue";
+          ctx.fillRect(this.x, this.y, this.w, this.w);
+          ctx.strokeStyle = "black";
+          ctx.strokeRect(this.x, this.y, this.w, this.w);
+      }
+
+      var pc2 = {
+        x : 100,
+        y : 200,
+        w : 30,
+        vx: 50,
+        vy: 0,
+        mover : function(dt){
+          this.x = this.x + this.vx*dt;
+          this.y = this.y + this.vy*dt;
+        }
+      }
+      
+      pc2.desenhar = function(ctx) {
           ctx.fillStyle = "lightblue";
           ctx.fillRect(this.x, this.y, this.w, this.w);
           ctx.strokeStyle = "black";
@@ -75,8 +95,10 @@
           ctx.fillText(dt, 10,20);
           
           pc.mover(dt);
-
           pc.desenhar(ctx);
+
+          //pc2.mover(dt);
+          pc2.desenhar(ctx);
 
           desenhaPortais();
           anterior = t;
