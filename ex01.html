@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Semana 2 Exm1</title>
+</head>
+<body>
+    <h1>Semana 2 Exm 01</h1>
+    <canvas />
+    <script>
+    var canvas = document.querySelector("canvas");
+    canvas.width = 400;
+    canvas.height = 300;
+    var dt = 0;
+    var anterior = 0;
+    var pcw = 30;
+    var pcvx = 50;
+    var pcvy = 0;
+    var ctx = canvas.getContext("2d");
+    function teclaPressionada(e){
+        console.log(e.keyCode);
+        if(e.keyCode == 37){
+            pcvx = -80;
+        }
+        if(e.keyCode == 39){
+            pcvx = 80;
+        }
+    }
+    function teclaSolta(e){
+        console.log(e.keyCode);
+        if(e.keyCode == 37){
+            pcvx = 0;
+        }
+        if(e.keyCode == 39){
+            pcvx = 0;
+        }
+        
+    }
+    function desenhaChao(){
+        ctx.fillStyle = "tan";
+        ctx.fillRect(0,0,canvas.width, canvas.height);
+        
+    }
+    function desenhaPortais(){
+        ctx.fillStyle = "blue";
+        ctx.fillRect(395,95,5,40); 
+        ctx.fillStyle = "orange";
+        ctx.fillRect(0,95,5,40); 
+    }
+    function desenhaPC(x, y){
+        ctx.fillStyle = "lightblue";
+        ctx.fillRect(x, y, pcw, pcw);
+        ctx.strokeStyle = "black";
+        ctx.strokeRect(x, y, pcw, pcw);
+    }
+    function passo(t){
+        dt = (t - anterior)/1000;
+        desenhaChao();
+        ctx.fillStyle = "black";
+        ctx.fillText(t, 10,10);
+        ctx.fillText(dt, 10,20);
+        
+        pcx = pcx + pcvx*dt;
+        pcy = pcy + pcvy*dt;
+        desenhaPC(pcx,pcy);
+        desenhaPortais();
+        anterior = t;
+        if(pcx >= canvas.width){
+            //pcvx = -pcvx;
+            pcx = 0 - pcw;
+        } else if(pcx <= 0-pcw){
+            //pcvx = -pcvx;
+            pcx = canvas.width;
+        }
+        requestAnimationFrame(passo);
+    }
+    //Programa principal
+    var pcx = 100;
+    var pcy = 100;
+    addEventListener("keydown", teclaPressionada);
+    addEventListener("keyup", teclaSolta);
+    requestAnimationFrame(passo);
+    
+    </script>
+</body>
+</html>
