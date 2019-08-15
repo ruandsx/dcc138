@@ -44,15 +44,18 @@
         mover : function(dt){
           this.x = this.x + this.vx*dt;
           this.y = this.y + this.vy*dt;
-        }
-      }
-      
-      pc2.desenhar = function(ctx) {
+        },
+        desenhar : function(ctx) {
           ctx.fillStyle = "lightblue";
           ctx.fillRect(this.x, this.y, this.w, this.w);
           ctx.strokeStyle = "black";
           ctx.strokeRect(this.x, this.y, this.w, this.w);
+        },
+        perseguir : function(alvo){
+            this.vx = (alvo.x - this.x);
+        }
       }
+      
 
       var ctx = canvas.getContext("2d");
 
@@ -94,10 +97,12 @@
           ctx.fillText(t, 10,10);
           ctx.fillText(dt, 10,20);
           
+          pc2.perseguir(pc);
+
           pc.mover(dt);
           pc.desenhar(ctx);
 
-          //pc2.mover(dt);
+          pc2.mover(dt);
           pc2.desenhar(ctx);
 
           desenhaPortais();
