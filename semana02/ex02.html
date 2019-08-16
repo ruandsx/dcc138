@@ -16,6 +16,9 @@
       canvas.height = 300;
       var dt = 0;
       var anterior = 0;
+      var min = 0;
+      var seg = 0;
+      var tempo = 0;
 
       var pc = {}
       pc.x = 100;
@@ -53,6 +56,7 @@
         },
         perseguir : function(alvo){
             this.vx = (alvo.x - this.x);
+            //this.vy = (alvo.y - this.y);
         }
       }
       
@@ -61,40 +65,42 @@
 
 
       function teclaPressionada(e){
-          console.log(e.keyCode);
+        console.log(e.keyCode);
           if(e.keyCode == 37){
-              pc.vx = -80;
+            pc.vx = -80;
           }
           if(e.keyCode == 39){
-              pc.vx = 80;
+            pc.vx = 80;
           }
       }
       function teclaSolta(e){
-          console.log(e.keyCode);
-          if(e.keyCode == 37){
-              pc.vx = 0;
-          }
-          if(e.keyCode == 39){
-              pc.vx = 0;
-          }
-          
+        console.log(e.keyCode);
+        if(e.keyCode == 37){
+            pc.vx = 0;
+        }
+        if(e.keyCode == 39){
+            pc.vx = 0;
+        }
       }
       function desenhaChao(){
-          ctx.fillStyle = "tan";
-          ctx.fillRect(0,0,canvas.width, canvas.height);
-          
+        ctx.fillStyle = "tan";
+        ctx.fillRect(0,0,canvas.width, canvas.height);
       }
       function desenhaPortais(){
-          ctx.fillStyle = "blue";
-          ctx.fillRect(395,95,5,40); 
-          ctx.fillStyle = "orange";
-          ctx.fillRect(0,95,5,40); 
+        ctx.fillStyle = "blue";
+        ctx.fillRect(395,95,5,40); 
+        ctx.fillStyle = "orange";
+        ctx.fillRect(0,95,5,40); 
       }
       function passo(t){
           dt = (t - anterior)/1000;
           desenhaChao();
           ctx.fillStyle = "black";
-          ctx.fillText(t, 10,10);
+          tempo = parseInt((t)/1000);
+          seg = parseInt(tempo%60);
+          min = parseInt(tempo/60);
+          
+          ctx.fillText("Minutos: "+ min +" | Segundos: "+ seg, 10,10);
           ctx.fillText(dt, 10,20);
           
           pc2.perseguir(pc);
