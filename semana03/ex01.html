@@ -17,7 +17,12 @@
       var anterior = 0;
       var dt = 0;
       var pc = new Sprite({vx:10});
-      var pc2 = new Sprite({vx:-10, x:100, y:10});
+      var npc = [];
+      //var npc = new Sprite({vx:-10, x:100, y:50});
+
+      for (let i = 0; i < npc.length; i++) {
+        npc[i] = new Sprite({vx:-10, x:100, y:50});;
+      }
 
       function passo(t){
         dt= (t - anterior)/1000;
@@ -25,14 +30,18 @@
         ctx.fillRect(0,0, canvas.width, canvas.height);
   
         pc.mover(dt);
-        pc2.mover(dt)
+        npc.perseguir(pc);
+        npc.mover(dt)
 
         pc.desenhar(ctx);
-        pc2.desenhar(ctx);
+        npc.desenhar(ctx);
 
-        if(pc.colidiuCom(pc2)){
-          pc2.x = pc2.x + 50;
-          pc.x = pc.x - 40;
+        if(pc.colidiuCom(npc)){
+          npc.x = Math.random()*canvas.width;
+          npc.y = Math.random()*canvas.height;
+
+          pc.x -=20;
+
         }
 
         anterior = t;

@@ -24,7 +24,6 @@ Sprite.prototype.desenhar = function (ctx) {
   ctx.strokeStyle="black";
   ctx.fillRect(this.x,this.y,this.w, this.w);
 }
-
 Sprite.prototype.mover = function(dt){
   this.x = this.x + this.vx*dt;
   this.y = this.y + this.vy*dt;
@@ -36,4 +35,10 @@ Sprite.prototype.colidiuCom = function(alvo){
   if(alvo.y > this.y + this.w) return false;
 
   return true;
+}
+Sprite.prototype.perseguir = function(alvo){
+  this.vx = 0.5 * (alvo.x - this.x);
+  this.vx = 20 * Math.sign(alvo.x - this.x);
+
+  this.vy = 0.5 * (alvo.y - this.y);
 }
