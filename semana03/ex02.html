@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Semana 3 Ex01</title>
+    <script src="Sprite.js"></script>
+</head>
+<body>
+    <h1>Semana 3 Ex 01</h1>
+    <canvas />
+    <script>
+      
+      var canvas = document.querySelector("canvas");
+      var ctx = canvas.getContext("2d");
+      var anterior = 0;
+      var dt = 0;
+      var pc = new Sprite({vx:10});
+      var npc = new Sprite({vx:-10, x:100, y:50});
+      var npc = [];
+
+      for (let i = 0; i < 5; i++) {
+        npc[i] = new Sprite({vx:-10, x:100, y:70+i*10});;
+      }
+
+
+      function passo(t){
+        dt= (t - anterior)/1000;
+        ctx.fillStyle = "tan";
+        ctx.fillRect(0,0, canvas.width, canvas.height);
+  
+        pc.mover(dt);
+        for (let i = 0; i < npc.length; i++) {
+        npc[i].perseguir(pc);
+        npc[i].mover(dt)
+        }
+        
+
+        pc.desenhar(ctx);
+      
+        for (let i = 0; i < npc.length; i++) {
+          npc[i].desenhar(ctx);
+          if(pc.colidiuCom(npc[i])){
+            npc[i].x = Math.random()*canvas.width;
+            npc[i].y = Math.random()*canvas.height;
+            pc.x -=0.01;
+          }
+        }
+
+        anterior = t;
+        requestAnimationFrame(passo);
+      }
+
+      requestAnimationFrame(passo);
+
+    </script>
+</body>
+</html>

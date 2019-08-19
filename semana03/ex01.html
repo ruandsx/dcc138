@@ -17,12 +17,8 @@
       var anterior = 0;
       var dt = 0;
       var pc = new Sprite({vx:10});
-      var npc = [];
-      //var npc = new Sprite({vx:-10, x:100, y:50});
+      var npc = new Sprite({vx:-10, x:100, y:50});
 
-      for (let i = 0; i < npc.length; i++) {
-        npc[i] = new Sprite({vx:-10, x:100, y:50});;
-      }
 
       function passo(t){
         dt= (t - anterior)/1000;
