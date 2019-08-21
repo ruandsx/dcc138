@@ -1,5 +1,5 @@
 function Sprite(construtor) {
-  var {
+   var {
   x=0,
   y=0,
 
@@ -16,7 +16,7 @@ function Sprite(construtor) {
   this.vy = vy;
 }
 
-Sprite.prototype = new Sprite();
+Sprite.prototype = new Sprite({});
 Sprite.constructor = Sprite();
 
 Sprite.prototype.desenhar = function (ctx) {

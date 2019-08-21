@@ -4,172 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>DCC138 | Trabalho 01</title>
+    <link rel="shortcut icon" href="assets/icon.png" />
+    <title>Piano</title>
+    <script src="Texto.js"></script>
+    <script src="Tecla.js"></script>
 </head>
 <body>
-    <h1>Follow the mouse</h1>
+    <h1>Piano Tiles</h1>
     <canvas />
     <script>
+      
       var canvas = document.querySelector("canvas");
+      canvas.width=250;
+      canvas.height = 500;
 
-      canvas.width = 600;
-      canvas.height = 400;
-      var dt = 0;
+      var ctx = canvas.getContext("2d");
       var anterior = 0;
-      var min = 0;
-      var seg = 0;
-      var tempo = 0;
+      var dt = 0;
+      var quantidade = 10;
+      var teclas = {};
+      var fps = new Texto({txt: "FPS: ", x: 200, y: 30});
 
-      var player = {
-        x : 100,
-        y : 100,
-        w : 30,
-        vx : 50,
-        vy : 0,
-        mover : function(dt){
-        this.x = this.x + this.vx*dt;
-        this.y = this.y + this.vy*dt;
-        },
-        desenhar : function(ctx) {
-            ctx.fillStyle = "lightblue";
-            ctx.fillRect(this.x, this.y, this.w, this.w);
-            ctx.strokeStyle = "black";
-            ctx.strokeRect(this.x, this.y, this.w, this.w);
-        }
-      }
-
-      var inimigo = {
-        x : 100,
-        y : 200,
-        w : 30,
-        vx: 50,
-        vy: 0,
-        mover : function(dt){
-          this.x = this.x + this.vx*dt;
-          this.y = this.y + this.vy*dt;
-        },
-        desenhar : function(ctx) {
-          ctx.fillStyle = "lightblue";
-          ctx.fillRect(this.x, this.y, this.w, this.w);
-          ctx.strokeStyle = "black";
-          ctx.strokeRect(this.x, this.y, this.w, this.w);
-        },
-        perseguir : function(alvo){
-            this.vx = (alvo.x - this.x);
-            this.vy = (alvo.y - this.y);
-        }
+      for (let i = 0; i < quantidade; i++) {
+        teclas[i] =
+        new Tecla({
+          x: Math.floor(Math.random() * 250) - 30,
+          y: Math.floor(Math.random() * 100),
+          vy: 0,
+        });
       }
       
 
-      var ctx = canvas.getContext("2d");
 
-
-      function teclaPressionada(e){
-        switch (e.keyCode){
-          case 37:
-            player.vx = -80;
-            break;
-          case 39:
-            player.vx = 80;
-            break;
-          case 38:
-            player.vy = -80;
-            break;
-          case 40:
-            player.vy = 80;
-            break;
-          case 65:
-            inimigo.vx = -80;
-            break;
-          case 68:
-            inimigo.vx = 80;
-            break;
-          case 87:
-            inimigo.vy = -80;
-            break;
-          case 83:
-            inimigo.vy = 80;
-            break; 
-        }
-      }
-
-      function teclaSolta(e){
-        switch(e.keyCode){
-          case 37:
-            player.vx = 0;
-            break;
-          case 39:
-            player.vx = 0;
-            break;
-          case 38:
-            player.vy = 0;
-            break;
-          case 40:
-            player.vy = 0;
-            break;
-          case 65:
-            inimigo.vx = 0;
-            break;
-          case 68:
-            inimigo.vx = 0;
-            break;
-          case 87:
-            inimigo.vy = 0;
-            break;
-          case 83:
-            inimigo.vy = 0;
-            break; 
-        }
-      }
-      function desenhaChao(){
-        ctx.fillStyle = "tan";
-        ctx.fillRect(0,0,canvas.width, canvas.height);
-      }
-      function desenhaPortais(){
-        ctx.fillStyle = "blue";
-        ctx.fillRect(canvas.width-5,95,5,40); 
-        ctx.fillStyle = "black";
-        ctx.fillRect(0,95,5,40); 
-      }
       function passo(t){
-          dt = (t - anterior)/1000;
-          desenhaChao();
-          ctx.fillStyle = "black";
-          tempo = parseInt((t)/1000);
-          seg = parseInt(tempo%60);
-          min = parseInt(tempo/60);
-          anterior = t;
+        dt= (t - anterior)/1000;
+        ctx.fillStyle = "tan";
+        ctx.fillRect(0,0, canvas.width, canvas.height);
 
-          ctx.fillText("Tempo: "+ min +"min "+ seg +"seg", 10,10);
-          ctx.fillText("FPS: "+parseInt(dt*3660), 10,20);
-          
-          //inimigo.perseguir(player);
-          player.mover(dt);
-          player.desenhar(ctx);
 
-          inimigo.mover(dt);
-          inimigo.desenhar(ctx);
+        for (let i = 0; i < quantidade; i++) {
+          teclas[i].mover(dt);
+          teclas[i].click();
+            if(!teclas[i].apagado){
+              teclas[i].desenhar(ctx);
+            }
+        }
 
-          desenhaPortais();
+        fps.desenhar(ctx, dt*3666);
+        
 
-          if(player.x >= canvas.width){
-              //player.vx = -player.vx;
-              player.x = 0 - player.w;
-          }else if(player.x <= 0-player.w){
-              //player.vx = -player.vx;
-              player.x = canvas.width;
-          }
-          if(inimigo.x >= canvas.width){
-              inimigo.x = 0 - inimigo.w;
-          }else if(inimigo.x <= 0-inimigo.w){
-              inimigo.x = canvas.width;
-          }
-
-          requestAnimationFrame(passo);
+        anterior = t;
+        requestAnimationFrame(passo);
       }
-      //Programa principal
-      addEventListener("keydown", teclaPressionada);
-      addEventListener("keyup", teclaSolta);
+          
       requestAnimationFrame(passo);
       
     </script>

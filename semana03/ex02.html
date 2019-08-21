@@ -19,9 +19,10 @@
       var pc = new Sprite({vx:10});
       var npc = new Sprite({vx:-10, x:100, y:50});
       var npc = [];
+      const NNPC = 1000;
 
-      for (let i = 0; i < 5; i++) {
-        npc[i] = new Sprite({vx:-10, x:100, y:70+i*10});;
+      for (let i = 0; i < NNPC; i++) {
+        npc[i] = new Sprite({vx:-10, x:100, w:2, y:70+i*10});;
       }
 
 
