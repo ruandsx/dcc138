@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Semana 3 Ex01</title>
+    <script src="Sprite.js"></script>
+</head>
+<body>
+    <h1>Semana 3 Ex 02</h1>
+    <canvas />
+    <script>
+      
+      var canvas = document.querySelector("canvas");
+      canvas.width = 800;
+      canvas.height = 500;
+      var ctx = canvas.getContext("2d");
+      var anterior = 0;
+      var dt = 0;
+      var pc = new Sprite({vx:10, w: 50, cor: "tan"});
+      var npc = new Sprite({vx:-10, w:15, x:100, y:50});
+      var npc = [];
+      const NNPC = 50;
+      var teclas = {
+        espaco: 0,
+        cima: 0,
+        direita: 0, 
+        esquerda:0,
+        baixo: 0
+      }
+      var pontos = 3;
+
+      var imagem = new Image(30,30 );
+      var imagem2 = new Image(30,30);
+      var muro = new Image(120,120);
+      muro.src = "./muro.png";
+      imagem.src = "./trump.png";
+      imagem2.src =  "./yo.png"
+
+
+      //Geracao dos npcs
+      for (let i = 0; i < NNPC; i++) {
+        var jurupinga = Math.floor(Math.random() * parseInt(canvas.width) ) - 1
+        npc[i] = new Sprite({vx:-10, x:jurupinga, w:30, y:70+i*10, cor: "tan"});;
+      }
+
+
+      function passo(t){
+        dt= (t - anterior)/1000;
+        ctx.fillStyle = "tan";
+        ctx.fillRect(0,0, canvas.width, canvas.height);
+  
+        if(teclas.espaco && pc.atirando<=0){
+          var tiro = new Sprite({x: pc.x, y: pc.y, vx: 100, w:5 , cor: "black"});
+          npc.push(tiro);
+          pc.atirando = 3;
+        }
+
+        pc.controlePorTeclas({teclas: teclas});
+        pc.mover(dt);
+  
+        for (let i = 0; i < npc.length; i++) {
+        npc[i].perseguir({alvo: pc});
+        npc[i].mover(dt)
+        }
+        
+
+        pc.desenhar(ctx);
+        ctx.drawImage(imagem2, pc.x, pc.y, pc.w, pc.w);
+      
+        for (let i = 0; i < npc.length; i++) {
+          npc[i].desenhar(ctx);
+          ctx.drawImage(imagem, npc[i].x, npc[i].y, npc[i].w, npc[i].w);
+          if(pc.imune <=0 && pc.colidiuCom(npc[i])){
+           /* npc[i].x = Math.random()*canvas.width;
+            npc[i].y = Math.random()*canvas.height;
+            pc.x -=0.01;
+            */ //jogando o npc pro outro lado
+            pontos--;
+            pc.imune = 2;
+          }
+        }
+
+        ctx.fillStyle = "black";
+        ctx.strokeStyle = "green";
+        ctx.fillText(pontos, 10, 20);
+        ctx.strokeText(pontos, 10, 20);
+        ctx.font = "15px bold monospaced"
+
+        anterior = t;
+        if(pontos > 0){
+          requestAnimationFrame(passo);
+        }else{
+          ctx.fillStyle = "black";
+          ctx.strokeStyle = "black";
+          ctx.font = "15px boldcmonospaced"
+          ctx.fillText("¡AY CARAMBA!", pc.x, pc.y);
+          ctx.strokeText("¡AY CARAMBA!", pc.x, pc.y);
+          ctx.drawImage(muro, pc.x, pc.y, 60, 60)    
+        }
+
+        setTimeout(3000, ctx.fillStyle = "black");
+
+      }
+
+      requestAnimationFrame(passo);
+
+      //Configura controles
+      addEventListener("keydown", function(e){
+        switch(e.keyCode){
+          case 32:
+            teclas.espaco = 1;
+          break;
+          case 37:
+            teclas.esquerda = 1;
+          break;
+          case 38:
+            teclas.cima = 1;
+            break;
+          case 39:
+            teclas.direita = 1;
+            break;
+          case 40:
+            teclas.baixo = 1;
+            break;
+        }
+      })
+      addEventListener("keyup", function(e){
+        switch(e.keyCode){
+          case 37:
+            teclas.esquerda = 0;
+          break;
+          case 38:
+            teclas.cima = 0;
+            break;
+          case 39:
+            teclas.direita = 0;
+            break;
+          case 40:
+            teclas.baixo = 0;
+            break;
+        }
+      })
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src = "Sprite.js"></script>
+  <script src = "Scene.js"></script>
+</head>
+<body>
+  <canvas></canvas>
+  <script>
+  
+    var canvas = document.querySelector("canvas");
+    canvas.width = 600;
+    canvas.height = 480;
+    var ctx = canvas.getContext("2d");
+    
+    var cena1 = new Scene({w: canvas.width, h: canvas.height, contexto : ctx});
+    var pc = new Sprite({cor : "black"});
+
+    cena1.adicionar(pc);
+    cena1.adicionar(new Sprite({x: 100, y: 100, cor: "red", comporta: persegue(pc)}));
+    cena1.adicionar(new Sprite({x: 160, y: 150, cor: "red", comporta: persegue(pc)}));
+    cena1.desenhar();
+  
+    function persegue(alvo){
+      return function(){
+        this.vx = math.sign(alvo.x - this.x);
+        this.vy = math.sign(alvo.y - this.y);
+      }
+
+    }
+
+    var dt, anterior = 0
+    function passo(t){
+      dt = (t-anterior)/1000;
+
+      cena1.passo(dt);
+
+      anterior = t;
+      requestAnimationFrame(passo);
+
+    }
+
+    requestAnimationFrame(passo);
+
+  </script>
+</body>
+</html>

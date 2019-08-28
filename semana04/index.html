@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src = "Sprite.js"></script>
+  <script src = "Scene.js"></script>
+</head>
+<body>
+  <canvas></canvas>
+  <script>
+  
+    var canvas = document.querySelector("canvas");
+    canvas.width = 600;
+    canvas.height = 480;
+    var ctx = canvas.getContext("2d");
+    
+    var cena1 = new Scene({w: canvas.width, h: canvas.height, contexto : ctx});
+    var teclas = {
+      esquerda : 0,
+      cima: 0,
+      direita: 0,
+      baixo: 0,
+    }
+
+    var pc = new Sprite({cor : "black", comportar: porTeclasDirecionais(teclas)});
+
+    cena1.adicionar(pc);
+    cena1.adicionar(new Sprite({x: 100, y: 100, cor: "red", comporta: persegue(pc)}));
+    cena1.adicionar(new Sprite({x: 160, y: 150, cor: "red", comporta: persegue(pc)}));
+    cena1.desenhar();
+  
+    function persegue(alvo){
+      return function(){
+        this.vx = 20*Math.sign(alvo.x - this.x);
+        this.vy = 20*Math.sign(alvo.y - this.y);
+      }
+
+    }
+
+    function porTeclasDirecionais(teclas){
+      return function(){
+        console.log("debugging");
+        addEventListener("keydown", function (e) {
+          switch (e.keyCode) {
+            case 37:
+              teclas.esquerda = 1;
+              break;
+            case 38:
+              teclas.cima = 1;
+              break;
+            case 39:
+              teclas.direita = 1;
+              break;
+            case 40:
+              teclas.baixo = 1;
+              break;
+          }
+        })
+        addEventListener("keyup", function (e) {
+          switch (e.keyCode) {
+            case 37:
+              teclas.esquerda = 0;
+              break;
+            case 38:
+              teclas.cima = 0;
+              break;
+            case 39:
+              teclas.direita = 0;
+              break;
+            case 40:
+              teclas.baixo = 0;
+              break;
+          }
+        })
+      }
+    }
+
+    var dt, anterior = 0
+    function passo(t){
+      dt = (t-anterior)/1000;
+
+      cena1.passo(dt);
+
+      anterior = t;
+      requestAnimationFrame(passo);
+
+    }
+
+    requestAnimationFrame(passo);
+
+  </script>
+</body>
+</html>
