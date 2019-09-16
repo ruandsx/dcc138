@@ -10,9 +10,15 @@
 
 </head>
 <body>
-  <h1>Flappy Bird</h1>
+  <h1>Flappy Quase Bird</h1>
   <canvas></canvas>
   <script>
+    var fundo = new Image();
+    var player = new Image();
+    var chao = new Image();
+    fundo.src = "assets/fundo.png";
+    player.src = "assets/player.png";
+    chao.src = "assets/chao.png";
   
     var canvas = document.querySelector("canvas");
     canvas.width = 288;
@@ -21,6 +27,15 @@
 
     var voar = new Audio();
     voar.src = "assets/voar.mp3";
+    var gameover = new Image();
+    gameover.src = "assets/gameover.png";
+
+    if(localStorage.getItem("best")==null){
+      mehorPt = 0;
+    }else{
+      var melhorPt = localStorage.getItem("best");
+    
+    }
     
     var cena1 = new Scene({w: canvas.width, h: canvas.height, contexto : ctx});
     var teclas = {
@@ -63,24 +78,27 @@
       seg = parseInt(tempo%60);
       min = parseInt(tempo/60);
 
-   
-
       cena1.passo(dt);
 
       anterior = t;
       ctx.font = "20px Helvetica";
       ctx.fillStyle = "#black";
-      ctx.fillText("Minutos: "+ min +" | Segundos: "+ seg,10,canvas.height-20);
+      ctx.fillText("Minutos: "+ min +" | Segundos: "+ seg,30,canvas.height-20);
+      ctx.fillText("Melhor: "+localStorage.getItem("best"), 170, canvas.height -50);
 
       if(cena1.sprites[0].perdeu === 0){
         requestAnimationFrame(passo);
       }else{
-        ctx.font = "30px Helvetica";
         ctx.fillStyle = "black";
-        ctx.fillText("Fim de Jogo",60,canvas.height/2);
         ctx.font = "18px Helvetica";
-        ctx.fillText("Pressione espaço para",50,canvas.height/2 + 35);
-        ctx.fillText("jogar novamente",70,canvas.height/2 + 50);
+        ctx.fillText("Pressione espaço para",50,canvas.height/2 + 20);
+        ctx.fillText("jogar novamente",75,canvas.height/2 + 35);
+        if(cena1.sprites[0].score > localStorage.getItem("best")){
+          localStorage.setItem("best", cena1.sprites[0].score);
+        }
+
+        ctx.drawImage(gameover,45, canvas.height/2 - 50);
+
 
         addEventListener("keydown", function (e) {
           switch (e.keyCode) {

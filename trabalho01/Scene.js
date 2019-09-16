@@ -1,5 +1,6 @@
 class Scene {
   constructor(construtor) {
+    
     var {w = 800, h = 600, contexto = null, sprites = [], comporta = undefined} = construtor;
     this.w = w;
     this.h = h;
@@ -8,25 +9,19 @@ class Scene {
     this.comporta = comporta;
     this.tempo = 0;
   }
-
+  
   adicionar(sprite){
     this.sprites.push(sprite);
   }
   desenhar(){
-    var fundo = new Image();
-    var player = new Image();
-    var chao = new Image();
-    fundo.src = "assets/fundo.png";
-    player.src = "assets/player.png";
-    chao.src = "assets/chao.png";
     ctx.drawImage(fundo,0,0);
     ctx.drawImage(player,this.sprites[0].x - 20,this.sprites[0].y-15);
     ctx.drawImage(chao,0,400);
-
+    
     ctx.font = "20px Helvetica";
-    ctx.fillStyle = "#black";
+    ctx.fillStyle = "black";
     ctx.fillText("Pontuação : "+this.sprites[0].score,10,canvas.height-50);
-
+    
     for(let i=0;i<this.sprites.length;i++){
       this.sprites[i].desenhar(this.contexto);
     }
@@ -63,12 +58,12 @@ class Scene {
       }
 
     //colisao
-    for(let i=1;i<this.sprites.length;i+=2){
+    for(let i=1;i<this.sprites.length;i++){
       if( this.sprites[0].x < this.sprites[i].x + this.sprites[i].w &&
         this.sprites[0].x +  this.sprites[0].w > this.sprites[i].x &&
         this.sprites[0].y < this.sprites[i].y + this.sprites[i].h &&
         this.sprites[0].y +  this.sprites[0].h > this.sprites[i].y) {
-        this.sprites[0].perdeu=1;
+       // this.sprites[0].perdeu=1;
       }
     }
 

@@ -26,7 +26,7 @@ class Sprite {
       ctx.fillRect(-this.w/2, -this.h/2, this.w, this.h);
       ctx.strokeRect(-this.w/2, -this.h/2, this.w, this.h);
    }
-    ctx.restore();
+   ctx.restore();
   }
   mover(dt) {
     if(this.cano!==0){
@@ -40,7 +40,7 @@ class Sprite {
         this.y = 10;
         this.perdeu = 1;
       }    
-      this.y = this.y - this.vy*0.3;
+      this.y = this.y - this.vy*0.4;
   }
   }
 }
