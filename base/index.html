@@ -18,7 +18,14 @@
     var ctx = canvas.getContext("2d");
     
     var cena1 = new Scene({w: canvas.width, h: canvas.height, contexto : ctx});
-    var pc = new Sprite({cor : "black"});
+    var teclas = {
+      esquerda : 0,
+      cima: 0,
+      direita: 0,
+      baixo: 0,
+    }
+
+    var pc = new Sprite({cor : "black", va : 3, comporta: porTeclasDirecionais(teclas)});
 
     cena1.adicionar(pc);
     cena1.adicionar(new Sprite({x: 100, y: 100, cor: "red", comporta: persegue(pc)}));
@@ -27,10 +34,22 @@
   
     function persegue(alvo){
       return function(){
-        this.vx = math.sign(alvo.x - this.x);
-        this.vy = math.sign(alvo.y - this.y);
+        this.vx = 20*Math.sign(alvo.x - this.x);
+        this.vy = 20*Math.sign(alvo.y - this.y);
       }
 
+    }
+
+    function porTeclasDirecionais(teclas){
+      return function(){
+        if(teclas.esquerda){ this.vx = -120}
+        if(teclas.direita){  this.vx = +120}
+        if(teclas.esquerda === teclas.direita){ this.vx = 0}
+
+        if(teclas.cima){ this.vy = -120}
+        if(teclas.baixo){  this.vy = +120}
+        if(teclas.cima === teclas.baixo){ this.vy = 0}
+      }
     }
 
     var dt, anterior = 0
@@ -45,6 +64,40 @@
     }
 
     requestAnimationFrame(passo);
+
+
+    addEventListener("keydown", function (e) {
+          switch (e.keyCode) {
+            case 37:
+              teclas.esquerda = 1;
+              break;
+            case 38:
+              teclas.cima = 1;
+              break;
+            case 39:
+              teclas.direita = 1;
+              break;
+            case 40:
+              teclas.baixo = 1;
+              break;
+          }
+        })
+        addEventListener("keyup", function (e) {
+          switch (e.keyCode) {
+            case 37:
+              teclas.esquerda = 0;
+              break;
+            case 38:
+              teclas.cima = 0;
+              break;
+            case 39:
+              teclas.direita = 0;
+              break;
+            case 40:
+              teclas.baixo = 0;
+              break;
+          }
+        })
 
   </script>
 </body>
