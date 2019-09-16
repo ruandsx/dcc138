@@ -63,7 +63,8 @@ class Scene {
         this.sprites[0].x +  this.sprites[0].w > this.sprites[i].x &&
         this.sprites[0].y < this.sprites[i].y + this.sprites[i].h &&
         this.sprites[0].y +  this.sprites[0].h > this.sprites[i].y) {
-       // this.sprites[0].perdeu=1;
+       // this.sprites[0].perdeu=1; 
+       
       }
     }
 
