@@ -25,7 +25,7 @@ class Scene {
 
     ctx.font = "20px Helvetica";
     ctx.fillStyle = "#black";
-    ctx.fillText("Score : "+this.sprites[0].score,10,canvas.height-50);
+    ctx.fillText("Pontuação : "+this.sprites[0].score,10,canvas.height-50);
 
     for(let i=0;i<this.sprites.length;i++){
       this.sprites[i].desenhar(this.contexto);
