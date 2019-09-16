@@ -22,10 +22,10 @@ class Sprite {
     ctx.fillStyle = this.cor;
     ctx.strokeStyle = "black";
     ctx.lineWidth = 1;
-   // if(this.cano!==0){
+    if(this.cano!==0){
       ctx.fillRect(-this.w/2, -this.h/2, this.w, this.h);
       ctx.strokeRect(-this.w/2, -this.h/2, this.w, this.h);
-   //}
+   }
     ctx.restore();
   }
   mover(dt) {
