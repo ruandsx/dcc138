@@ -68,6 +68,18 @@ Sprite.prototype.moverOrtogonal = function (dt) {
     this.aplicaRestricoes(dt);
     this.cooldown = this.cooldown - dt;
 }
+
+Sprite.prototype.mudarDirecao = function (dt) {
+    this.vx = this.vx * dt;
+    this.vy = this.vy * dt;
+
+    this.mc = Math.floor(this.x / this.scene.map.SIZE);
+    this.ml = Math.floor(this.y / this.scene.map.SIZE);
+
+    this.aplicaRestricoes(dt);
+    this.cooldown = this.cooldown - dt;
+}
+
 Sprite.prototype.aplicaRestricoes = function (dt) {
 
     var dnx;

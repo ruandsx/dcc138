@@ -27,7 +27,7 @@ Scene.prototype.desenhar = function(){
 
 Scene.prototype.mover = function(dt){
     for(var i = 0; i<this.sprites.length; i++){
-        this.sprites[i].mover(dt);
+        this.sprites[i].mudarDirecao(dt);
     }  
 };
 
@@ -53,17 +53,12 @@ Scene.prototype.checaColisao = function(){
             if(this.sprites[i].colidiuCom(this.sprites[j])){
                 if(this.sprites[i].props.tipo === "pc"
                 && this.sprites[j].props.tipo ==="npc"){
-                    this.toRemove.push(this.sprites[j]);
-                    this.adicionar(new Explosion({x: this.sprites[j].x, y:this.sprites[j].y}));
-                    this.assets.play("explosion");
+                    this.toRemove.push(this.sprites[i]);
                 }
                 else 
-                if(this.sprites[i].props.tipo === "npc"
-                && this.sprites[j].props.tipo ==="tiro"){
-                    this.toRemove.push(this.sprites[i]);
+                if(this.sprites[i].props.tipo === "pc"
+                && this.sprites[j].props.tipo ==="comida"){
                     this.toRemove.push(this.sprites[j]);
-                    this.adicionar(new Explosion({x: this.sprites[i].x, y:this.sprites[i].y}));
-                    this.assets.play("explosion");
                 }
             }
         }
@@ -90,6 +85,6 @@ Scene.prototype.passo = function(dt){
     this.comportar();
     this.mover(dt);
     this.desenhar();
-    //this.checaColisao();
+    this.checaColisao();
     this.removeSprites();
 }
