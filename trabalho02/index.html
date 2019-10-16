@@ -64,13 +64,23 @@
         //mapa.cells[4][9].tipo = 1;
         //mapa.cells[4][2].tipo = 1;
         var cena1 = new Scene({ ctx: ctx, w: canvas.width, h: canvas.height, assets: assetsMng, map:mapa });
-        
-
+       
         var pc = new Sprite({ x: 48, y: 622, w: 20, h: 20, comportar: porTeclasDirecionais(teclas), props: { tipo: "pc" }});
         cena1.adicionar(pc);
 
         var en1 = new Sprite({ x: 336, y: 300, w: 20, h: 20, color:"red", props: { tipo: "npc" }})
         cena1.adicionar(en1);
+
+        for (let i = 0; i < 21; i++) {
+            for (let j = 0; j < 21; j++) {
+                  if(mapa.cells[j][i].tipo==0){
+                    let ponto = new Sprite({ x: j*8*4 + 12, y: i*8*4 +12, color: "tan", w: 8, h: 8, props: { tipo: "ponto" }});
+                    cena1.adicionar(ponto);
+                  }  
+            }       
+        }
+        
+
         function porTeclasDirecionais(teclas) {
             return function () {
                 switch (teclas.apertada){

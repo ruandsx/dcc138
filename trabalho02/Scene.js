@@ -57,7 +57,7 @@ Scene.prototype.checaColisao = function(){
                 }
                 else 
                 if(this.sprites[i].props.tipo === "pc"
-                && this.sprites[j].props.tipo ==="comida"){
+                && this.sprites[j].props.tipo ==="ponto"){
                     this.toRemove.push(this.sprites[j]);
                 }
             }
