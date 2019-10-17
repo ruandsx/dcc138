@@ -10,7 +10,11 @@
     <script src="AssetsManager.js"></script>
     <script src="Map.js"></script>
 </head>
-
+<style>
+    html{
+        background-color: #000;
+    }
+</style>
 <body>
     <canvas></canvas>
     <script>
@@ -181,15 +185,19 @@
                 cena1.passo(dt);
             }
 
-            tempo = parseInt((t)/1000);
-            seg = parseInt(tempo%60);
-            ctx.fillStyle = "black";
-            ctx.fillText(seg%4, 500, 20);
-            if(seg%2 == 0){
+            tempo = parseInt((t)/100);
+            tic = parseInt(tempo%8);
+            if(tic >=0 && tic<2){
                 pc.imagem=1;
             }
-            if((seg%2) == 1){
+            if(tic >=2 && tic<4){
                 pc.imagem=2;
+            }
+            if(tic >=4 && tic<6){
+                pc.imagem=1;
+            }
+            if(tic >=6 && tic<8){
+                pc.imagem=3;
             }
 
             anterior = t;
