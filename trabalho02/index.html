@@ -19,9 +19,9 @@
     <canvas></canvas>
     <script>
         var assetsMng = new AssetsManager();
-        assetsMng.loadImage("playerM", "assets/pacMeia.png");
-        assetsMng.loadImage("playerA", "assets/pacAberta.png");
-        assetsMng.loadImage("playerF", "assets/pacFechada.png");
+        assetsMng.loadImage("playerM", "assets/playerM.png");
+        assetsMng.loadImage("playerA", "assets/playerA.png");
+        assetsMng.loadImage("playerF", "assets/playerF.png");
       
         var canvas = document.querySelector("canvas");
         canvas.width = 672;
@@ -82,6 +82,10 @@
 
         var en1 = new Sprite({ x: 336, y: 300, w: 20, h: 20, color:"red", comportar:persegue(pc), props: { tipo: "npc" }})
         cena1.adicionar(en1);
+        var en2 = new Sprite({ x: 305, y: 336, w: 20, h: 20, color:"blue", props: { tipo: "npc" }})
+        cena1.adicionar(en2);
+        var en3 = new Sprite({ x: 370, y: 336, w: 20, h: 20, color:"green", props: { tipo: "npc" }})
+        cena1.adicionar(en3);
         
         function persegue(alvo) {
             return function () {
@@ -99,22 +103,22 @@
                 switch (teclas.apertada){
                     case 1:
                         this.vy=0;
-                        this.vx= -9000;
+                        this.vx= -7000;
                         this.direcao = "e"
                         break;
                     case 2:
                         this.vx=0;
-                        this.vy= -9000;
+                        this.vy= -7000;
                         this.direcao = "c";
                         break;
                     case 3:
                         this.vy=0;
-                        this.vx= 9000;
+                        this.vx= 7000;
                         this.direcao = "d";
                         break;
                     case 4:
                         this.vx=0;
-                        this.vy= 9000;
+                        this.vy= 7000;
                         this.direcao = "b";
                         break;
                     default: 
