@@ -27,7 +27,10 @@ Scene.prototype.desenhar = function(){
 
 Scene.prototype.mover = function(dt){
     for(var i = 0; i<this.sprites.length; i++){
-        this.sprites[i].mudarDirecao(dt);
+        if(this.sprites[i].props.tipo=="pc")
+            this.sprites[i].mudarDirecao(dt);
+        else
+            this.sprites[i].mover(dt);
     }  
 };
 
@@ -58,7 +61,7 @@ Scene.prototype.checaColisao = function(){
                 else 
                 if(this.sprites[i].props.tipo === "pc"
                 && this.sprites[j].props.tipo ==="ponto"){
-                    this.sprites[i].pontos += 30;
+                    this.sprites[i].pontos += 10;
                     this.toRemove.push(this.sprites[j]);
                 }
             }

@@ -76,10 +76,15 @@
             }       
         }
 
-        var en1 = new Sprite({ x: 336, y: 300, w: 20, h: 20, color:"red", props: { tipo: "npc" }})
+        var en1 = new Sprite({ x: 336, y: 300, w: 20, h: 20, color:"red", comportar:persegue(pc), props: { tipo: "npc" }})
         cena1.adicionar(en1);
         
-
+        function persegue(alvo) {
+            return function () {
+                this.vx = 20 * Math.sign(alvo.x - this.x);
+                this.vy = 20 * Math.sign(alvo.y - this.y);
+            }
+        }
         function porTeclasDirecionais(teclas) {
             return function () {
                 switch (teclas.apertada){
