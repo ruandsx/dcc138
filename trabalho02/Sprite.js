@@ -11,8 +11,8 @@ function Sprite(params = {}) {
         a: 0,
         va: 0,
         vm: 0,
-        mcAnt: undefined,
-        mlAnt: undefined,
+        mcOld: 1,
+        mlOld: 19,
         color: "yellow",
         direcao: "d",
         imune: 0,
@@ -49,13 +49,14 @@ Sprite.prototype.desenhar = function (ctx) {
     }
 
  
-    if(this.props.tipo != "pc"){
+ /*   if(this.props.tipo != "pc"){
         ctx.fillStyle = this.color;
         ctx.strokeStyle = "black";
         ctx.lineWidth = 1;
         ctx.fillRect(-this.w / 2, -this.h / 2, this.w, this.h);
         ctx.strokeRect(-this.w / 2, -this.h / 2, this.w, this.h);
     }
+ */   
 
     if(this.props.tipo == "pc"){
         ctx.drawImage(
@@ -104,6 +105,25 @@ Sprite.prototype.mudarDirecao = function (dt) {
 
     this.mc = Math.floor(this.x / this.scene.map.SIZE);
     this.ml = Math.floor(this.y / this.scene.map.SIZE);
+
+    if(this.mc != this.mcOld){
+        for (var c = 0; c < 21; c++) {
+            for (var l = 0; l < 21; l++) {
+                this.scene.map.cells[c][l].dist=999;
+            }
+        }
+        this.scene.map.distMarca(this.mc, this.ml, 0);
+        this.mcOld = this.mc
+    }
+    if(this.ml != this.mlOld){
+        for (var c = 0; c < 21; c++) {
+            for (var l = 0; l < 21; l++) {
+                this.scene.map.cells[c][l].dist=999;
+            }
+        }
+        this.scene.map.distMarca(this.mc, this.ml, 0);
+        this.mlOld = this.ml
+    }
 
     this.aplicaRestricoes(dt);
     

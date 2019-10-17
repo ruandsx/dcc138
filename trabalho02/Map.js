@@ -59,7 +59,9 @@ Map.prototype.distMarca= function(c, l, d){
             return
         }
 
+  
         this.cells[c][l].dist = d;
+
         this.distMarca(c+1, l, d+1);
         this.distMarca(c-1, l, d+1);
         this.distMarca(c, l-1, d+1);

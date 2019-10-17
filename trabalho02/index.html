@@ -66,12 +66,9 @@
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
         ]
         });
-        //mapa.cells[1][19].tipo = 1;
-        //mapa.cells[2][9].tipo = 1;
-        //mapa.cells[4][9].tipo = 1;
-        //mapa.cells[4][2].tipo = 1;
+        
+
         var cena1 = new Scene({ ctx: ctx, w: canvas.width, h: canvas.height, assets: assetsMng, map:mapa });
-       
         var pc = new Sprite({ x: 48, y: 622, w: 20, h: 20, comportar: porTeclasDirecionais(teclas), props: { tipo: "pc" }});
         cena1.adicionar(pc);
 
@@ -117,6 +114,10 @@
                 }
                 
             }
+        }
+
+        function andaMenorDistancia(){
+            
         }
 
         function random(){
