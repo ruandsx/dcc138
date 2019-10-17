@@ -29,7 +29,7 @@
         assetsMng.loadImage("pontos", "assets/pontos.png");
       
         var canvas = document.querySelector("canvas");
-        canvas.width = 1000;
+        canvas.width = 1100;
         canvas.height = 672;
         var ctx = canvas.getContext("2d");
         var teclas = {
@@ -90,9 +90,9 @@
 
         var en1 = new Sprite({ x: 336, y: 300, w: 20, h: 20, color:"red", comportar:persegue(pc), props: { tipo: "npc" }})
         cena1.adicionar(en1);
-        var en2 = new Sprite({ x: 305, y: 336, w: 20, h: 20, color:"blue", comportar:random(), props: { tipo: "npc" }})
+        var en2 = new Sprite({ x: 305, y: 336, w: 20, h: 20, color:"blue", props: { tipo: "npc" }})
         cena1.adicionar(en2);
-        var en3 = new Sprite({ x: 370, y: 336, w: 20, h: 20, color:"green", comportar:random(), props: { tipo: "npc" }})
+        var en3 = new Sprite({ x: 370, y: 336, w: 20, h: 20, color:"green", props: { tipo: "npc" }})
         cena1.adicionar(en3);
         
         function persegue(alvo) {
@@ -205,7 +205,7 @@
         function passo(t) {
             dt = (t - anterior) / 1000;
 
-            if(assetsMng.progresso()===100 && cena1.gameover==0){
+            if(assetsMng.progresso()===100 && cena1.gameover==0 && pc.pontos<totalPontos*10){
                 cena1.passo(dt);
                 for(let i=0;i<pc.vidas;i++){
                     ctx.drawImage(
@@ -225,9 +225,19 @@
                 ctx.drawImage(cena1.assets.img("pontos"), 700, 315, 40, 40)
                 ctx.fillText(pc.pontos, 760, 347);
                 }
+            }else if(cena1.gameover==1){
+                ctx.fillStyle = "white";
+                ctx.font = "60px monospace";
+                ctx.fillText("GAME OVER", 750, 336);
+                ctx.font = "20px monospace";
+                ctx.fillText("Pressione espaço para tentar novamente", 682, 400);
             }else{
-            ctx.fillStyle = "white";
-            ctx.fillText("GAME OVER", 700, 336);
+                segundos = (parseInt(t/1000))%60;
+                ctx.fillStyle = "white";
+                ctx.font = "60px monospace";
+                ctx.fillText("Parabéns!", 750, 500);
+                ctx.font = "20px monospace";
+                ctx.fillText(`Você finalizou o jogo com ${pc.pontos} pontos`, 680, 550);
             }
 
             tempo = parseInt((t)/100);
@@ -246,7 +256,6 @@
             }
 
             anterior = t;
-
 
             ctx.font = "10px Arial";
             ctx.fillText("FPS: "+parseInt(1 / dt), 680, 660);

@@ -11,6 +11,8 @@ function Sprite(params = {}) {
         a: 0,
         va: 0,
         vm: 0,
+        mcAnt: undefined,
+        mlAnt: undefined,
         color: "yellow",
         direcao: "d",
         imune: 0,
