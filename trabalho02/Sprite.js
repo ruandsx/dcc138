@@ -106,6 +106,11 @@ Sprite.prototype.mudarDirecao = function (dt) {
 }
 
 Sprite.prototype.aplicaRestricoes = function (dt) {
+    
+    if(this.props.tipo=="pc"||this.props.tipo=="enemy"){
+        if(this.x>630 && this.direcao=="d")this.x=0;
+        if(this.x<40 && this.direcao=="e")this.x=660;
+    } // modificar atravessador de parede
 
     var dnx;
     var dx;

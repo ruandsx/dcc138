@@ -81,10 +81,15 @@
         
         function persegue(alvo) {
             return function () {
-                this.vx = 20 * Math.sign(alvo.x - this.x);
-                this.vy = 20 * Math.sign(alvo.y - this.y);
+                this.vx = 50 * Math.sign(alvo.x - this.x);
+                this.vy = 50 * Math.sign(alvo.y - this.y);
+
+                //nao deixar andar na diagonal
+                if(this.y == alvo.y)
+                    this.vy=0
             }
         }
+        
         function porTeclasDirecionais(teclas) {
             return function () {
                 switch (teclas.apertada){
