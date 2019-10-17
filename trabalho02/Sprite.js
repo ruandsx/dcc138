@@ -82,18 +82,6 @@ Sprite.prototype.mover = function (dt) {
     this.moverOrtogonal(dt);
 }
 
-Sprite.prototype.moverCircular = function (dt) {
-    this.a = this.a + this.va * dt;
-
-    this.vx = this.vm * Math.cos(this.a);
-    this.vy = this.vm * Math.sin(this.a);
-
-    this.x = this.x + this.vx * dt;
-    this.y = this.y + this.vy * dt;
-
-    this.cooldown = this.cooldown - dt;
-}
-
 Sprite.prototype.moverOrtogonal = function (dt) {
     //this.a = this.a + this.va*dt;
 
@@ -109,8 +97,8 @@ Sprite.prototype.moverOrtogonal = function (dt) {
 }
 
 Sprite.prototype.mudarDirecao = function (dt) {
-    this.vx = this.vx * dt;
-    this.vy = this.vy * dt;
+    //this.vx = this.vx * dt;
+    //this.vy = this.vy * dt;
 
     this.mc = Math.floor(this.x / this.scene.map.SIZE);
     this.ml = Math.floor(this.y / this.scene.map.SIZE);

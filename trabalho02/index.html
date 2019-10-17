@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlockMan</title>
+    <title>NoEyesMan</title>
+    <link rel="shortcut icon" href="assets/icon.png" />
     <script src="Sprite.js"></script>
     <script src="Scene.js"></script>
     <script src="AssetsManager.js"></script>
@@ -51,7 +52,7 @@
         [1,1,0,0,0,0,1,1,1,0,1,0,1,1,1,0,0,0,0,1,1],
         [1,0,0,1,1,0,1,0,0,0,1,0,0,0,1,0,1,1,0,0,1],
         [1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1],
-        [1,1,1,1,0,0,0,0,1,1,0,1,1,0,0,0,0,1,1,1,1],
+        [1,1,1,1,0,0,0,0,1,0,0,0,1,0,0,0,0,1,1,1,1],
         [0,0,0,0,0,0,1,0,1,0,0,0,1,0,1,0,0,0,0,0,0],
         [1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1],
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
@@ -65,7 +66,7 @@
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
         ]
         });
-        //mapa.cells[6][9].tipo = 1;
+        //mapa.cells[1][19].tipo = 1;
         //mapa.cells[2][9].tipo = 1;
         //mapa.cells[4][9].tipo = 1;
         //mapa.cells[4][2].tipo = 1;
@@ -74,12 +75,15 @@
         var pc = new Sprite({ x: 48, y: 622, w: 20, h: 20, comportar: porTeclasDirecionais(teclas), props: { tipo: "pc" }});
         cena1.adicionar(pc);
 
-
+        var totalPontos =0;
         for (let i = 0; i < 21; i++) {
             for (let j = 0; j < 21; j++) {
                   if(mapa.cells[j][i].tipo==0){
-                    let ponto = new Sprite({ x: j*8*4 + 16, y: i*8*4 +16, color: "tan", w: 8, h: 8, props: { tipo: "ponto" }});
-                    cena1.adicionar(ponto);
+                      if((j!=1 || i!=19)&&(j!=11 || i!=9)&&(j!=9 || i!=9)&&(j!=10 || i!=9)&&(j!=9 || i!=10)&&(j!=10 || i!=10)&&(j!=11 || i!=10)){
+                        let ponto = new Sprite({ x: j*8*4 + 16, y: i*8*4 +16, color: "tan", w: 8, h: 8, props: { tipo: "ponto" }});
+                        cena1.adicionar(ponto);
+                        totalPontos ++;
+                      }
                   }  
             }       
         }
@@ -117,8 +121,8 @@
 
         function random(){
             return function () {
-               this.vx = -100;
-               this.vy = -100;
+               this.vx = Math.random() * 100;
+               this.vy = Math.random() * -100;
             }
         }
 
@@ -127,22 +131,22 @@
                 switch (teclas.apertada){
                     case 1:
                         this.vy=0;
-                        this.vx= -7000;
+                        this.vx= -150;
                         this.direcao = "e"
                         break;
                     case 2:
                         this.vx=0;
-                        this.vy= -7000;
+                        this.vy= -150;
                         this.direcao = "c";
                         break;
                     case 3:
                         this.vy=0;
-                        this.vx= 7000;
+                        this.vx= 150;
                         this.direcao = "d";
                         break;
                     case 4:
                         this.vx=0;
-                        this.vy= 7000;
+                        this.vy= 150;
                         this.direcao = "b";
                         break;
                     default: 
@@ -213,11 +217,11 @@
                 );
 
                 //desenhando os status atuais do jogo e personagem
-                ctx.fillStyle = "white";
-                ctx.font = "30px Arial";
+                ctx.fillStyle = "tan";
+                ctx.font = "30px monospace";
                 ctx.fillText("Vidas:", 700, 25);
                 ctx.drawImage(cena1.assets.img("playerM"), 700 + 100*i, 60, 60, 60)
-
+                
                 ctx.drawImage(cena1.assets.img("pontos"), 700, 315, 40, 40)
                 ctx.fillText(pc.pontos, 760, 347);
                 }
