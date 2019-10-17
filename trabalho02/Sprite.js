@@ -29,18 +29,20 @@ Sprite.prototype.desenhar = function (ctx) {
     ctx.save();
     ctx.translate(this.x, this.y);
     ctx.strokeRect(-this.w / 2, -this.h / 2, this.w, this.h);
-    switch(this.direcao){
-        case "d":
-            break;
-        case "c":
-            ctx.rotate(-Math.PI/2);
-            break;
-        case "e":
-            ctx.rotate(Math.PI);
-            break;
-        case "b":
-            ctx.rotate(Math.PI / 2);
-            break;
+    if(this.props.tipo=="pc"){
+        switch(this.direcao){
+            case "d":
+                break;
+            case "c":
+                ctx.rotate(-Math.PI/2);
+                break;
+            case "e":
+                ctx.rotate(Math.PI);
+                break;
+            case "b":
+                ctx.rotate(Math.PI / 2);
+                break;
+        }
     }
 
  
@@ -55,6 +57,16 @@ Sprite.prototype.desenhar = function (ctx) {
     if(this.props.tipo == "pc"){
         ctx.drawImage(
             pc.imagem==1?this.scene.assets.img("playerM"):pc.imagem==2?this.scene.assets.img("playerA"):this.scene.assets.img("playerF"),
+            -this.w/2,
+            -this.h/2,
+            this.w,
+            this.h 
+        );
+    }
+
+    if(this.props.tipo == "npc"){
+        ctx.drawImage(
+            this.direcao == "d" || this.direcao == "e" ?this.scene.assets.img("redL"): this.direcao == "c"?this.scene.assets.img("redC"):this.scene.assets.img("redB"),
             -this.w/2,
             -this.h/2,
             this.w,

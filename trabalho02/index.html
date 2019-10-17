@@ -22,6 +22,9 @@
         assetsMng.loadImage("playerM", "assets/playerM.png");
         assetsMng.loadImage("playerA", "assets/playerA.png");
         assetsMng.loadImage("playerF", "assets/playerF.png");
+        assetsMng.loadImage("redL", "assets/redLado.png");
+        assetsMng.loadImage("redC", "assets/redCima.png");
+        assetsMng.loadImage("redB", "assets/redBaixo.png");
       
         var canvas = document.querySelector("canvas");
         canvas.width = 672;
@@ -74,7 +77,7 @@
         for (let i = 0; i < 21; i++) {
             for (let j = 0; j < 21; j++) {
                   if(mapa.cells[j][i].tipo==0){
-                    let ponto = new Sprite({ x: j*8*4 + 12, y: i*8*4 +12, color: "tan", w: 8, h: 8, props: { tipo: "ponto" }});
+                    let ponto = new Sprite({ x: j*8*4 + 16, y: i*8*4 +16, color: "tan", w: 8, h: 8, props: { tipo: "ponto" }});
                     cena1.adicionar(ponto);
                   }  
             }       
@@ -82,19 +85,39 @@
 
         var en1 = new Sprite({ x: 336, y: 300, w: 20, h: 20, color:"red", comportar:persegue(pc), props: { tipo: "npc" }})
         cena1.adicionar(en1);
-        var en2 = new Sprite({ x: 305, y: 336, w: 20, h: 20, color:"blue", props: { tipo: "npc" }})
+        var en2 = new Sprite({ x: 305, y: 336, w: 20, h: 20, color:"blue", comportar:random(), props: { tipo: "npc" }})
         cena1.adicionar(en2);
-        var en3 = new Sprite({ x: 370, y: 336, w: 20, h: 20, color:"green", props: { tipo: "npc" }})
+        var en3 = new Sprite({ x: 370, y: 336, w: 20, h: 20, color:"green", comportar:random(), props: { tipo: "npc" }})
         cena1.adicionar(en3);
         
         function persegue(alvo) {
             return function () {
-                this.vx = 50 * Math.sign(alvo.x - this.x);
-                this.vy = 50 * Math.sign(alvo.y - this.y);
+                if(this.x == alvo.x) this.vx = 0;
+                else  this.vx = 50 * Math.sign(alvo.x - this.x);
+               
+                if(this.y == alvo.y) this.vy = 0;
+                else  this.vy = 50 * Math.sign(alvo.y - this.y);
 
-                //nao deixar andar na diagonal
-                if(this.y == alvo.y)
-                    this.vy=0
+                
+                if(this.vx>0){
+                    this.direcao = "d";
+                }else{
+                    this.direcao = "e";
+                }
+                
+                if(this.vy>0){
+                    this.direcao = "b";
+                }else{
+                    this.direcao = "c";
+                }
+                
+            }
+        }
+
+        function random(){
+            return function () {
+               this.vx = -100;
+               this.vy = -100;
             }
         }
 
@@ -128,14 +151,6 @@
                         break;
                 }
 
-
-                //if (teclas.esquerda) { this.vx = -9000; this.vy=0;}
-                //if (teclas.direita) { this.vx = 9000; this.vy=0}
-                //if (!teclas.esquerda === teclas.direita) { this.vx = 0; }
-
-                //if (teclas.cima) { this.vy = -9000; this.vx=0}
-                //if (teclas.baixo) { this.vy = 9000; this.vx=0}
-                //if (!teclas.cima === teclas.baixo) { this.vy = 0; }
             }
         }
         addEventListener("keydown", function (e) {
