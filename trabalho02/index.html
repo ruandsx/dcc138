@@ -25,9 +25,10 @@
         assetsMng.loadImage("redL", "assets/redLado.png");
         assetsMng.loadImage("redC", "assets/redCima.png");
         assetsMng.loadImage("redB", "assets/redBaixo.png");
+        assetsMng.loadImage("pontos", "assets/pontos.png");
       
         var canvas = document.querySelector("canvas");
-        canvas.width = 800;
+        canvas.width = 1000;
         canvas.height = 672;
         var ctx = canvas.getContext("2d");
         var teclas = {
@@ -202,9 +203,27 @@
 
             if(assetsMng.progresso()===100 && cena1.gameover==0){
                 cena1.passo(dt);
+                for(let i=0;i<pc.vidas;i++){
+                    ctx.drawImage(
+                    cena1.assets.img("playerF"),
+                    -this.w/2,
+                    -this.h/2,
+                    this.w,
+                    this.h 
+                );
+
+                //desenhando os status atuais do jogo e personagem
+                ctx.fillStyle = "white";
+                ctx.font = "30px Arial";
+                ctx.fillText("Vidas:", 700, 25);
+                ctx.drawImage(cena1.assets.img("playerM"), 700 + 100*i, 60, 60, 60)
+
+                ctx.drawImage(cena1.assets.img("pontos"), 700, 315, 40, 40)
+                ctx.fillText(pc.pontos, 760, 347);
+                }
             }else{
             ctx.fillStyle = "white";
-            ctx.fillText("GAME OVER", 700, 366, 1000);
+            ctx.fillText("GAME OVER", 700, 336);
             }
 
             tempo = parseInt((t)/100);
@@ -223,8 +242,10 @@
             }
 
             anterior = t;
-            ctx.fillStyle = "black";
-            ctx.fillText(1 / dt, 10, 20);
+
+
+            ctx.font = "10px Arial";
+            ctx.fillText("FPS: "+parseInt(1 / dt), 680, 660);
             requestAnimationFrame(passo);
         }
 

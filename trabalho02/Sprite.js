@@ -14,6 +14,7 @@ function Sprite(params = {}) {
         color: "yellow",
         direcao: "d",
         imune: 0,
+        vidas: 3,
         pontos: 0,
         props: {},
         comportar: undefined,
