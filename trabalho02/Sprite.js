@@ -11,11 +11,11 @@ function Sprite(params = {}) {
         a: 0,
         va: 0,
         vm: 0,
-        props: {},
-        cooldown: 0,
         color: "yellow",
+        direcao: "d",
         imune: 0,
-        atirando: 0,
+        pontos: 0,
+        props: {},
         comportar: undefined,
         scene: undefined
     }
@@ -29,13 +29,38 @@ Sprite.prototype.desenhar = function (ctx) {
     ctx.save();
     ctx.translate(this.x, this.y);
     ctx.strokeRect(-this.w / 2, -this.h / 2, this.w, this.h);
-    ctx.rotate(this.a + Math.PI / 2);
+    switch(this.direcao){
+        case "d":
+            break;
+        case "c":
+            ctx.rotate(-Math.PI/2);
+            break;
+        case "e":
+            ctx.rotate(Math.PI);
+            break;
+        case "b":
+            ctx.rotate(Math.PI / 2);
+            break;
+    }
 
-    ctx.fillStyle = this.color;
-    ctx.strokeStyle = "black";
-    ctx.lineWidth = 1;
-    ctx.fillRect(-this.w / 2, -this.h / 2, this.w, this.h);
-    ctx.strokeRect(-this.w / 2, -this.h / 2, this.w, this.h);
+    if(this.props.tipo == "pc"){
+        ctx.drawImage(
+            this.scene.assets.img("playerM"),
+            -this.w/2,
+            -this.h/2,
+            this.w,
+            this.h 
+        );
+    }
+ 
+    if(this.props.tipo != "pc"){
+        ctx.fillStyle = this.color;
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 1;
+        ctx.fillRect(-this.w / 2, -this.h / 2, this.w, this.h);
+        ctx.strokeRect(-this.w / 2, -this.h / 2, this.w, this.h);
+    }
+
     ctx.restore();
 };
 
