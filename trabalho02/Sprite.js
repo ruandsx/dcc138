@@ -43,15 +43,6 @@ Sprite.prototype.desenhar = function (ctx) {
             break;
     }
 
-    if(this.props.tipo == "pc"){
-        ctx.drawImage(
-            this.scene.assets.img("playerM"),
-            -this.w/2,
-            -this.h/2,
-            this.w,
-            this.h 
-        );
-    }
  
     if(this.props.tipo != "pc"){
         ctx.fillStyle = this.color;
@@ -59,6 +50,16 @@ Sprite.prototype.desenhar = function (ctx) {
         ctx.lineWidth = 1;
         ctx.fillRect(-this.w / 2, -this.h / 2, this.w, this.h);
         ctx.strokeRect(-this.w / 2, -this.h / 2, this.w, this.h);
+    }
+
+    if(this.props.tipo == "pc"){
+        ctx.drawImage(
+            pc.imagem==1?this.scene.assets.img("playerM"):pc.imagem==2?this.scene.assets.img("playerA"):this.scene.assets.img("playerF"),
+            -this.w/2,
+            -this.h/2,
+            this.w,
+            this.h 
+        );
     }
 
     ctx.restore();
@@ -102,7 +103,7 @@ Sprite.prototype.mudarDirecao = function (dt) {
     this.ml = Math.floor(this.y / this.scene.map.SIZE);
 
     this.aplicaRestricoes(dt);
-    this.cooldown = this.cooldown - dt;
+    
 }
 
 Sprite.prototype.aplicaRestricoes = function (dt) {

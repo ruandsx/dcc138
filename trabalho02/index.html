@@ -89,7 +89,7 @@
                     this.vy=0
             }
         }
-        
+
         function porTeclasDirecionais(teclas) {
             return function () {
                 switch (teclas.apertada){
@@ -176,10 +176,22 @@
 
         function passo(t) {
             dt = (t - anterior) / 1000;
+
             if(assetsMng.progresso()===100){
                 cena1.passo(dt);
-                
             }
+
+            tempo = parseInt((t)/1000);
+            seg = parseInt(tempo%60);
+            ctx.fillStyle = "black";
+            ctx.fillText(seg%4, 500, 20);
+            if(seg%2 == 0){
+                pc.imagem=1;
+            }
+            if((seg%2) == 1){
+                pc.imagem=2;
+            }
+
             anterior = t;
             ctx.fillStyle = "black";
             ctx.fillText(1 / dt, 10, 20);
