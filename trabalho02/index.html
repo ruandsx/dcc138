@@ -27,7 +27,7 @@
         assetsMng.loadImage("redB", "assets/redBaixo.png");
       
         var canvas = document.querySelector("canvas");
-        canvas.width = 672;
+        canvas.width = 800;
         canvas.height = 672;
         var ctx = canvas.getContext("2d");
         var teclas = {
@@ -200,8 +200,11 @@
         function passo(t) {
             dt = (t - anterior) / 1000;
 
-            if(assetsMng.progresso()===100){
+            if(assetsMng.progresso()===100 && cena1.gameover==0){
                 cena1.passo(dt);
+            }else{
+            ctx.fillStyle = "white";
+            ctx.fillText("GAME OVER", 700, 366, 1000);
             }
 
             tempo = parseInt((t)/100);

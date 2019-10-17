@@ -6,7 +6,8 @@ function Scene(params) {
         w: 300,
         h: 300,
         assets: null,
-        map: null
+        map: null,
+        gameover: 0,
     }
     Object.assign(this, exemplo, params);
 }
@@ -57,6 +58,7 @@ Scene.prototype.checaColisao = function(){
                 if(this.sprites[i].props.tipo === "pc"
                 && this.sprites[j].props.tipo ==="npc"){
                     this.toRemove.push(this.sprites[i]);
+                    this.gameover = 1;
                 }
                 else 
                 if(this.sprites[i].props.tipo === "pc"
