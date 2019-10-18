@@ -11,6 +11,8 @@ function Sprite(params = {}) {
         a: 0,
         va: 0,
         vm: 0,
+        mc: 0,
+        ml: 0,
         mcOld: 1,
         mlOld: 19,
         color: "yellow",
@@ -82,7 +84,8 @@ Sprite.prototype.desenhar = function (ctx) {
 };
 
 Sprite.prototype.mover = function (dt) {
-    this.moverOrtogonal(dt);
+    //this.moverOrtogonal(dt);
+    this.aplicaRestricoes(dt);
 }
 
 Sprite.prototype.moverOrtogonal = function (dt) {
