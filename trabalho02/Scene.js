@@ -57,12 +57,18 @@ Scene.prototype.checaColisao = function(){
             if(this.sprites[i].colidiuCom(this.sprites[j])){
                 if(this.sprites[i].props.tipo === "pc"
                 && this.sprites[j].props.tipo ==="npc"){
-                    //this.toRemove.push(this.sprites[i]);
+                    
                     this.sprites[i].vx = 0;
                     this.sprites[i].vy = 0;
                     this.sprites[i].x = 48;
                     this.sprites[i].y = 622;
                     this.sprites[i].vidas -= 1;
+
+                    this.sprites[j].vx = 0;
+                    this.sprites[j].vy = 0;
+                    this.sprites[j].x = 336;
+                    this.sprites[j].y = 300;
+
                     if(this.sprites[i].vidas == 0){
                         this.gameover = 1;
                     }

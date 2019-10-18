@@ -23,7 +23,8 @@
         assetsMng.loadImage("playerM", "assets/playerM.png");
         assetsMng.loadImage("playerA", "assets/playerA.png");
         assetsMng.loadImage("playerF", "assets/playerF.png");
-        assetsMng.loadImage("redL", "assets/redLado.png");
+        assetsMng.loadImage("redE", "assets/redEsquerda.png");
+        assetsMng.loadImage("redD", "assets/redDireita.png");
         assetsMng.loadImage("redC", "assets/redCima.png");
         assetsMng.loadImage("redB", "assets/redBaixo.png");
         assetsMng.loadImage("pontos", "assets/pontos.png");
@@ -129,21 +130,25 @@
                     menor = this.scene.map.cells[c+1][l].dist;
                     this.vy = 0;
                     this.vx = 100;
+                    this.direcao = "d";
                 }else
                 if(this.scene.map.cells[c-1][l].dist<menor){
                     menor = this.scene.map.cells[c-1][l].dist;
                     this.vy = 0;
                     this.vx = -100;
+                    this.direcao = "e";
                 }else
                 if(this.scene.map.cells[c][l+1].dist<menor){
                     menor = this.scene.map.cells[c][l+1].dist;
                     this.vx = 0;
                     this.vy = 100;
+                    this.direcao = "b";
                 }else
                 if(this.scene.map.cells[c][l-1].dist<menor){
                     menor = this.scene.map.cells[c][l-1].dist;
                     this.vx = 0;
                     this.vy = -100;
+                    this.direcao = "c";
                 }
             }
         }

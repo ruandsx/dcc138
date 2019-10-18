@@ -72,7 +72,7 @@ Sprite.prototype.desenhar = function (ctx) {
 
     if(this.props.tipo == "npc"){
         ctx.drawImage(
-            this.direcao == "d" || this.direcao == "e" ?this.scene.assets.img("redL"): this.direcao == "c"?this.scene.assets.img("redC"):this.scene.assets.img("redB"),
+            this.direcao == "d"? this.scene.assets.img("redD") : this.direcao == "e" ?this.scene.assets.img("redE"): this.direcao == "c"?this.scene.assets.img("redC"):this.scene.assets.img("redB"),
             -this.w/2,
             -this.h/2,
             this.w,
