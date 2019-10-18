@@ -27,6 +27,7 @@
         assetsMng.loadImage("redC", "assets/redCima.png");
         assetsMng.loadImage("redB", "assets/redBaixo.png");
         assetsMng.loadImage("pontos", "assets/pontos.png");
+        assetsMng.loadImage("tempo", "assets/tempo.png");
       
         var canvas = document.querySelector("canvas");
         canvas.width = 1100;
@@ -117,7 +118,7 @@
         }
 
         function andaMenorDistancia(){
-            
+
         }
 
         function random(){
@@ -222,7 +223,8 @@
                 ctx.font = "30px monospace";
                 ctx.fillText("Vidas:", 700, 25);
                 ctx.drawImage(cena1.assets.img("playerM"), 700 + 100*i, 60, 60, 60)
-                
+                ctx.drawImage(cena1.assets.img("tempo"), 685, 190, 60, 60)
+                ctx.fillText((parseInt(t/1000))%60, 758, 230);
                 ctx.drawImage(cena1.assets.img("pontos"), 700, 315, 40, 40)
                 ctx.fillText(pc.pontos, 760, 347);
                 }
