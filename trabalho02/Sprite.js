@@ -168,7 +168,6 @@ Sprite.prototype.aplicaRestricoes = function (dt) {
     var MAXX = this.scene.map.SIZE * this.scene.map.COLUMNS - this.w / 2;
     var MAXY = this.scene.map.SIZE * this.scene.map.LINES - this.h / 2;
 
-    
     if (this.x > MAXX) this.x = MAXX;
     if (this.y > MAXY) {
         this.y = MAXY;
