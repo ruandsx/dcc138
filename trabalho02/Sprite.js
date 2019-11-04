@@ -34,12 +34,12 @@ Sprite.prototype.desenhar = function (ctx) {
     ctx.save();
     ctx.translate(this.x, this.y);
     ctx.strokeRect(-this.w / 2, -this.h / 2, this.w, this.h);
-    if(this.props.tipo=="pc"){
-        switch(this.direcao){
+    if (this.props.tipo == "pc") {
+        switch (this.direcao) {
             case "d":
                 break;
             case "c":
-                ctx.rotate(-Math.PI/2);
+                ctx.rotate(-Math.PI / 2);
                 break;
             case "e":
                 ctx.rotate(Math.PI);
@@ -50,33 +50,33 @@ Sprite.prototype.desenhar = function (ctx) {
         }
     }
 
- 
- /*   if(this.props.tipo != "pc"){
+
+    if (this.props.tipo != "pc") {
         ctx.fillStyle = this.color;
         ctx.strokeStyle = "black";
         ctx.lineWidth = 1;
         ctx.fillRect(-this.w / 2, -this.h / 2, this.w, this.h);
         ctx.strokeRect(-this.w / 2, -this.h / 2, this.w, this.h);
     }
- */   
 
-    if(this.props.tipo == "pc"){
+
+    if (this.props.tipo == "pc") {
         ctx.drawImage(
-            pc.imagem==1?this.scene.assets.img("playerM"):pc.imagem==2?this.scene.assets.img("playerA"):this.scene.assets.img("playerF"),
-            -this.w/2,
-            -this.h/2,
+            pc.imagem == 1 ? this.scene.assets.img("playerM") : pc.imagem == 2 ? this.scene.assets.img("playerA") : this.scene.assets.img("playerF"),
+            -this.w / 2,
+            -this.h / 2,
             this.w,
-            this.h 
+            this.h
         );
     }
 
-    if(this.props.tipo == "npc"){
+    if (this.props.tipo == "npc") {
         ctx.drawImage(
-            this.direcao == "d"? this.scene.assets.img("redD") : this.direcao == "e" ?this.scene.assets.img("redE"): this.direcao == "c"?this.scene.assets.img("redC"):this.scene.assets.img("redB"),
-            -this.w/2,
-            -this.h/2,
+            this.direcao == "d" ? this.scene.assets.img("redD") : this.direcao == "e" ? this.scene.assets.img("redE") : this.direcao == "c" ? this.scene.assets.img("redC") : this.scene.assets.img("redB"),
+            -this.w / 2,
+            -this.h / 2,
             this.w,
-            this.h 
+            this.h
         );
     }
 
@@ -85,6 +85,8 @@ Sprite.prototype.desenhar = function (ctx) {
 
 Sprite.prototype.mover = function (dt) {
     //this.moverOrtogonal(dt);
+    this.mc = Math.floor(this.x / this.scene.map.SIZE);
+    this.ml = Math.floor(this.y / this.scene.map.SIZE);
     this.aplicaRestricoes(dt);
 }
 
@@ -103,40 +105,93 @@ Sprite.prototype.moverOrtogonal = function (dt) {
 }
 
 Sprite.prototype.mudarDirecao = function (dt) {
-    //this.vx = this.vx * dt;
-    //this.vy = this.vy * dt;
 
     this.mc = Math.floor(this.x / this.scene.map.SIZE);
     this.ml = Math.floor(this.y / this.scene.map.SIZE);
 
-    if(this.mc != this.mcOld){
+    if (this.mc != this.mcOld) {
         for (var c = 0; c < 21; c++) {
             for (var l = 0; l < 21; l++) {
-                this.scene.map.cells[c][l].dist=999;
+                this.scene.map.cells[c][l].dist = 999;
             }
         }
         this.scene.map.distMarca(this.mc, this.ml, 0);
         this.mcOld = this.mc
     }
-    if(this.ml != this.mlOld){
+    if (this.ml != this.mlOld) {
         for (var c = 0; c < 21; c++) {
             for (var l = 0; l < 21; l++) {
-                this.scene.map.cells[c][l].dist=999;
+                this.scene.map.cells[c][l].dist = 999;
             }
         }
         this.scene.map.distMarca(this.mc, this.ml, 0);
         this.mlOld = this.ml
     }
 
-    this.aplicaRestricoes(dt);
-    
+    this.aplicaRestricoes2(dt);
+
 }
 
-Sprite.prototype.aplicaRestricoes = function (dt) {
-    
-    if(this.props.tipo=="pc"||this.props.tipo=="enemy"){
-        if(this.x>630 && this.direcao=="d")this.x=0;
-        if(this.x<40 && this.direcao=="e")this.x=660;
+Sprite.prototype.aplicaRestricoes2 = function (dt) {
+    let meH = new Sprite(this);
+    let meV = new Sprite(this);
+    meH.vy = 0;
+    meV.vx = 0;
+    let dx = meH.vx * dt
+    let dy = meV.vy * dt
+    meH.x += dx;
+    meV.y += dy;
+
+    ctx.strokeStyle = "blue";
+    ctx.strokeRect(meH.x-meH.w/2, meH.y-meH.h/2, meH.w, meH.h);
+    ctx.strokeStyle = "green";
+    ctx.strokeRect(meV.x-meV.w/2, meV.y-meV.h/2, meV.w, meV.h);
+
+
+    if (dx > 0 && this.scene.map.cells[this.mc + 1][this.ml].tipo != 0) {
+        
+        let fake = { x: (this.mc + 1.5) * this.scene.map.SIZE, y: (this.ml) * this.scene.map.SIZE, w: this.scene.map.SIZE, h: this.scene.map.SIZE };
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(fake.x, fake.y, fake.w, fake.h);
+        if (meH.colidiuCom(fake)) {
+            console.log("frente")
+            dx = 0;
+        }
+    }
+    if (dx > 0 && this.scene.map.cells[this.mc + 1][this.ml - 1].tipo != 0) {
+        let fake = { x: (this.mc + 1) * this.scene.map.SIZE, y: (this.ml-1) * this.scene.map.SIZE, w: this.scene.map.SIZE, h: this.scene.map.SIZE };
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(fake.x, fake.y, fake.w, fake.h);
+        if (meH.colidiuCom(fake)) {
+            console.log("cima")
+            dx = 0;
+        }
+    }
+    if (dx > 0 && this.scene.map.cells[this.mc + 1][this.ml + 1].tipo != 0) {
+        let fake = { x: (this.mc + 1) * this.scene.map.SIZE, y: (this.ml+1) * this.scene.map.SIZE, w: this.scene.map.SIZE, h: this.scene.map.SIZE };
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(fake.x, fake.y, fake.w, fake.h);
+        if (meH.colidiuCom({ x: (this.mc + 1) * this.scene.map.SIZE, y: (this.ml + 1) * this.scene.map.SIZE, w: this.scene.map.SIZE, h: this.scene.map.SIZE })) {
+            console.log("baixo")
+            dx = 0;
+        }
+    }
+
+    if (dx < 0 && this.scene.map.cells[this.mc - 1][this.ml].tipo != 0) {
+        if (!meH.colidiuCom({ x: (this.mc + 1) * this.scene.map.SIZE, y: (this.ml) * this.scene.map.SIZE, w: this.scene.map.SIZE, h: this.scene.map.SIZE })) {
+            dx = 0;
+        }
+    }
+
+    this.x += dx
+    this.y += dy
+}
+
+Sprite.prototype.aplicaRestricoes = function (dt, xx = 0, xy = 0) {
+
+    if (this.props.tipo == "pc" || this.props.tipo == "enemy") {
+        if (this.x > 630 && this.direcao == "d") this.x = 0;
+        if (this.x < 40 && this.direcao == "e") this.x = 660;
     } // modificar atravessador de parede
 
     var dnx;
