@@ -132,6 +132,8 @@ Sprite.prototype.mudarDirecao = function (dt) {
     
 }
 
+
+
 Sprite.prototype.aplicaRestricoes = function (dt) {
     
     if(this.props.tipo=="pc"||this.props.tipo=="enemy"){

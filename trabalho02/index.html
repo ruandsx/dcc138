@@ -71,7 +71,7 @@
         
 
         var cena1 = new Scene({ ctx: ctx, w: canvas.width, h: canvas.height, assets: assetsMng, map:mapa });
-        var pc = new Sprite({ x: 48, y: 622, w: 20, h: 20, comportar: porTeclasDirecionais(teclas), props: { tipo: "pc" }});
+        var pc = new Sprite({ x: 48, y: 622, w: 30, h: 30, comportar: porTeclasDirecionais(teclas), props: { tipo: "pc" }});
         cena1.adicionar(pc);
 
         var totalPontos =0;
@@ -87,7 +87,7 @@
             }       
         }
 
-        var en1 = new Sprite({ x: 336, y: 300, w: 20, h: 20, mc:9, ml:10, color:"red", comportar: persegueMenorDistancia(), props: { tipo: "npc" }})
+        var en1 = new Sprite({ x: 336, y: 300, w: 30, h: 30, mc:9, ml:10, color:"red", comportar: persegueMenorDistancia(), props: { tipo: "npc" }})
         cena1.adicionar(en1);
         //var en2 = new Sprite({ x: 305, y: 336, w: 20, h: 20, color:"blue", props: { tipo: "npc" }})
         //cena1.adicionar(en2);
