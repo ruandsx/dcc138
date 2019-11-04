@@ -51,14 +51,14 @@ Sprite.prototype.desenhar = function (ctx) {
     }
 
  
- /*   if(this.props.tipo != "pc"){
+    if(this.props.tipo != "pc"){
         ctx.fillStyle = this.color;
         ctx.strokeStyle = "black";
         ctx.lineWidth = 1;
         ctx.fillRect(-this.w / 2, -this.h / 2, this.w, this.h);
         ctx.strokeRect(-this.w / 2, -this.h / 2, this.w, this.h);
     }
- */   
+  //desenhar comida
 
     if(this.props.tipo == "pc"){
         ctx.drawImage(
@@ -132,7 +132,106 @@ Sprite.prototype.mudarDirecao = function (dt) {
     
 }
 
+Sprite.prototype.aplicaRestricoes2 = function (dt) {
+    let meH = new Sprite(this);
+    let meV = new Sprite(this);
+    meH.vy = 0;
+    meV.vx = 0;
+    let dx = meH.vx * dt
+    let dy = meV.vy * dt
+    meH.x += dx;
+    meV.y += dy;
 
+    ctx.strokeStyle = "blue";
+    ctx.strokeRect(meH.x-meH.w/2, meH.y-meH.h/2, meH.w, meH.h);
+    ctx.strokeStyle = "green";
+    ctx.strokeRect(meV.x-meV.w/2, meV.y-meV.h/2, meV.w, meV.h);
+
+
+    if (dx > 0 && this.scene.map.cells[this.mc + 1][this.ml].tipo != 0) {
+        
+        let fake = { x: (this.mc + 1.5) * this.scene.map.SIZE, y: (this.ml) * this.scene.map.SIZE, w: this.scene.map.SIZE, h: this.scene.map.SIZE };
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(fake.x, fake.y, fake.w, fake.h);
+        if (meH.colidiuCom(fake)) {
+            console.log("frente")
+            dx = 0;
+        }
+    }
+    if (dx > 0 && this.scene.map.cells[this.mc + 1][this.ml - 1].tipo != 0) {
+        let fake = { x: (this.mc + 1) * this.scene.map.SIZE, y: (this.ml-1) * this.scene.map.SIZE, w: this.scene.map.SIZE, h: this.scene.map.SIZE };
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(fake.x, fake.y, fake.w, fake.h);
+        if (meH.colidiuCom(fake)) {
+            console.log("cima")
+            dx = 0;
+        }
+    }
+    if (dx > 0 && this.scene.map.cells[this.mc + 1][this.ml + 1].tipo != 0) {
+        let fake = { x: (this.mc + 1) * this.scene.map.SIZE, y: (this.ml+1) * this.scene.map.SIZE, w: this.scene.map.SIZE, h: this.scene.map.SIZE };
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(fake.x, fake.y, fake.w, fake.h);
+        if (meH.colidiuCom({ x: (this.mc + 1) * this.scene.map.SIZE, y: (this.ml + 1) * this.scene.map.SIZE, w: this.scene.map.SIZE, h: this.scene.map.SIZE })) {
+            console.log("baixo")
+            dx = 0;
+        }
+    }
+
+    if (dx < 0 && this.scene.map.cells[this.mc - 1][this.ml].tipo != 0) {
+        if (!meH.colidiuCom({ x: (this.mc + 1) * this.scene.map.SIZE, y: (this.ml) * this.scene.map.SIZE, w: this.scene.map.SIZE, h: this.scene.map.SIZE })) {
+            dx = 0;
+        }
+    }
+
+    this.x += dx
+    this.y += dy
+}
+
+Sprite.prototype.aplicaRestricoes = function (dt, xx = 0, xy = 0) {
+
+    if (this.props.tipo == "pc" || this.props.tipo == "enemy") {
+        if (this.x > 630 && this.direcao == "d") this.x = 0;
+        if (this.x < 40 && this.direcao == "e") this.x = 660;
+    } // modificar atravessador de parede
+
+    var dnx;
+    var dx;
+    dx = this.vx * dt;
+    dnx = dx;
+    dy = this.vy * dt;
+    dny = dy;
+    if (dx > 0 && this.scene.map.cells[this.mc + 1][this.ml].tipo != 0) {
+        dnx = this.scene.map.SIZE * (this.mc + 1) - (this.x + this.w / 2);
+        dx = Math.min(dnx, dx);
+    }
+    if (dx < 0 && this.scene.map.cells[this.mc - 1][this.ml].tipo != 0) {
+        dnx = this.scene.map.SIZE * (this.mc - 1 + 1) - (this.x - this.w / 2);
+        dx = Math.max(dnx, dx);
+    }
+    if (dy > 0 && this.scene.map.cells[this.mc][this.ml + 1].tipo != 0) {
+        dny = this.scene.map.SIZE * (this.ml + 1) - (this.y + this.h / 2);
+        dy = Math.min(dny, dy);
+    }
+    if (dy < 0 && this.scene.map.cells[this.mc][this.ml - 1].tipo != 0) {
+        dny = this.scene.map.SIZE * (this.ml - 1 + 1) - (this.y - this.h / 2);
+        dy = Math.max(dny, dy);
+    }
+    this.vy = dy / dt;
+    this.x = this.x + dx;
+    this.y = this.y + dy;
+
+    var MAXX = this.scene.map.SIZE * this.scene.map.COLUMNS - this.w / 2;
+    var MAXY = this.scene.map.SIZE * this.scene.map.LINES - this.h / 2;
+
+    if (this.x > MAXX) this.x = MAXX;
+    if (this.y > MAXY) {
+        this.y = MAXY;
+        this.vy = 0;
+    }
+    if (this.x - this.w / 2 < 0) this.x = 0 + this.w / 2;
+    if (this.y - this.h / 2 < 0) this.y = 0 + this.h / 2;
+
+}
 
 Sprite.prototype.aplicaRestricoes = function (dt) {
     

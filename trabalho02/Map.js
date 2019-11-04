@@ -39,8 +39,10 @@ Map.prototype.desenhar = function (ctx) {
             ctx.fillRect(c * this.SIZE, l * this.SIZE, this.SIZE, this.SIZE);
             ctx.strokeStyle = "black";
             ctx.strokeRect(c * this.SIZE, l * this.SIZE, this.SIZE, this.SIZE);
-            ctx.fillStyle = "white";
-            ctx.fillText(this.cells[c][l].dist, c * this.SIZE+10, l * this.SIZE + 20   );
+            
+            //desenhar distancia
+            //ctx.fillStyle = "white";
+            //ctx.fillText(this.cells[c][l].dist, c * this.SIZE+10, l * this.SIZE + 20   );
         }
     }
 }
