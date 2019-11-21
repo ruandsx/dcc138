@@ -150,7 +150,7 @@ Sprite.prototype.aplicaRestricoes2 = function (dt) {
 
     if (dx > 0 && this.scene.map.cells[this.mc + 1][this.ml].tipo != 0) {
         
-        let fake = { x: (this.mc + 1.5) * this.scene.map.SIZE, y: (this.ml) * this.scene.map.SIZE, w: this.scene.map.SIZE, h: this.scene.map.SIZE };
+        let fake = { x: (this.mc + 1) * this.scene.map.SIZE, y: (this.ml) * this.scene.map.SIZE, w: this.scene.map.SIZE, h: this.scene.map.SIZE };
         ctx.strokeStyle = "red";
         ctx.strokeRect(fake.x, fake.y, fake.w, fake.h);
         if (meH.colidiuCom(fake)) {
