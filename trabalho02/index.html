@@ -95,6 +95,7 @@
         var en3 = new Sprite({ x: 370, y: 336, w: 20, h: 20, color:"green", props: { tipo: "npc" }})
         cena1.adicionar(en3);
         
+        
         function persegue(alvo) {
             return function () {
                 if(this.x == alvo.x) this.vx = 0;
