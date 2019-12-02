@@ -90,12 +90,12 @@
 
         var en1 = new Sprite({ x: 336, y: 300, w: 30, h: 30, mc:9, ml:10, color:"red", comportar: persegueMenorDistancia(), props: { tipo: "npc" }})
         cena1.adicionar(en1);
-        var en2 = new Sprite({ x: 305, y: 336, w: 20, h: 20, color:"blue", props: { tipo: "npc" }})
+        var en2 = new Sprite({ x: 305, y: 336, w: 30, h: 30, color:"blue", comportar: persegueMenorDistanciaLento(), props: { tipo: "npc" }})
         cena1.adicionar(en2);
-        var en3 = new Sprite({ x: 370, y: 336, w: 20, h: 20, color:"green", props: { tipo: "npc" }})
+        var en3 = new Sprite({ x: 370, y: 336, w: 30, h: 30, color:"green", comportar: persegueMenorDistanciaLento(), props: { tipo: "npc" }})
         cena1.adicionar(en3);
         
-        
+
         function persegue(alvo) {
             return function () {
                 if(this.x == alvo.x) this.vx = 0;
@@ -131,25 +131,60 @@
                 if(this.scene.map.cells[c+1][l].dist<menor){
                     menor = this.scene.map.cells[c+1][l].dist;
                     this.vy = 0;
-                    this.vx = 100;
+                    this.vx = 95;
                     this.direcao = "d";
                 }else
                 if(this.scene.map.cells[c-1][l].dist<menor){
                     menor = this.scene.map.cells[c-1][l].dist;
                     this.vy = 0;
-                    this.vx = -100;
+                    this.vx = -95;
                     this.direcao = "e";
                 }else
                 if(this.scene.map.cells[c][l+1].dist<menor){
                     menor = this.scene.map.cells[c][l+1].dist;
                     this.vx = 0;
-                    this.vy = 100;
+                    this.vy = 95;
                     this.direcao = "b";
                 }else
                 if(this.scene.map.cells[c][l-1].dist<menor){
                     menor = this.scene.map.cells[c][l-1].dist;
                     this.vx = 0;
-                    this.vy = -100;
+                    this.vy = -95;
+                    this.direcao = "c";
+                }
+            }
+        }
+
+        function persegueMenorDistanciaLento(){
+            return function(){
+                this.mc = Math.floor(this.x / this.scene.map.SIZE);
+                this.ml = Math.floor(this.y / this.scene.map.SIZE);
+                let c = this.mc;
+                let l = this.ml;
+                let menor = this.scene.map.cells[c][l].dist;
+               
+                if(this.scene.map.cells[c+1][l].dist<menor){
+                    menor = this.scene.map.cells[c+1][l].dist;
+                    this.vy = 0;
+                    this.vx = 50;
+                    this.direcao = "d";
+                }else
+                if(this.scene.map.cells[c-1][l].dist<menor){
+                    menor = this.scene.map.cells[c-1][l].dist;
+                    this.vy = 0;
+                    this.vx = -50;
+                    this.direcao = "e";
+                }else
+                if(this.scene.map.cells[c][l+1].dist<menor){
+                    menor = this.scene.map.cells[c][l+1].dist;
+                    this.vx = 0;
+                    this.vy = 50;
+                    this.direcao = "b";
+                }else
+                if(this.scene.map.cells[c][l-1].dist<menor){
+                    menor = this.scene.map.cells[c][l-1].dist;
+                    this.vx = 0;
+                    this.vy = -50;
                     this.direcao = "c";
                 }
             }
