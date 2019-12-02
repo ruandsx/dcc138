@@ -22,7 +22,7 @@ Scene.prototype.adicionar = function(sprite){
 
 Scene.prototype.desenhar = function(){
     for(var i = 0; i<this.sprites.length; i++){
-        // esconder para testes   if(this.sprites[i].props.tipo!="ponto")
+    //if(this.sprites[i].props.tipo!="ponto")
         this.sprites[i].desenhar(this.ctx);
     }  
 };
